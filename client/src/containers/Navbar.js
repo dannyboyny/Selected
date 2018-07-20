@@ -23,6 +23,10 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  newBadge: {
+    color: 'orange',
+    fontWeight: 'bold'
+  }
 };
 
 class Navbar extends Component {
@@ -37,11 +41,11 @@ class Navbar extends Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-    const unread = 's';
+    const unread = 1;
     const messagesTab = unread ? (
         <Tab
           label={
-            <p><span>New</span> Messages</p>
+            <h4><span style={styles.newBadge}>New</span> Messages</h4>
           }
         />
       )
