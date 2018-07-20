@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -38,18 +37,22 @@ class Navbar extends Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
+    const unread = 's';
+    const messagesTab = unread ? (
+        <Tab
+          label={
+            <p><span>New</span> Messages</p>
+          }
+        />
+      )
+      : (<Tab label="Messages" />);
 
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
-          <Toolbar>
-            <img src={logo} alt="logo" />
-            <Typography variant="title" color="inherit">
-              New
-            </Typography>
-          </Toolbar>
+          <img src={logo} alt="logo" />
           <Tabs value={value} onChange={this.handleChange}>
-            <Tab label="Messages" />
+            {messagesTab}
             <Tab label="Schools" />
             <Tab label="Profile" href="#basic-tabs" />
           </Tabs>
