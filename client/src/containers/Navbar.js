@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import logo from '../logo.svg';
 import MessageList from '../components/MessageList';
+import Badge from '@material-ui/core/Badge';
 
 const TabContainer = (props) => {
   return (
@@ -29,6 +30,12 @@ const styles = theme => ({
     color: 'orange',
     fontWeight: 'bold'
   },
+  margin: {
+    margin: theme.spacing.unit * 2,
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`,
+  },
   button: {
     margin: theme.spacing.unit,
   }
@@ -46,16 +53,17 @@ class Navbar extends Component {
   render() {
     const { value } = this.state;
     const { classes, messages } = this.props;
-    const unreadMessages = messages ? messages.filter(message => message.answered) : 0;
+    const unreadMessages = messages ? messages.filter(message => !message.answered) : 0;
     const messagesTab = unreadMessages ? (
-        <Tab
-          label={
-            <h3><span className={classes.newBadge}>New</span> Messages</h3>
-          }
-        />
-      )
-      : (<Tab label='Messages' />);
-
+      <Tab
+        label={
+          <Badge className={classes.padding} color="secondary" badgeContent={unreadMessages.length}>
+            Messages
+          </Badge>
+        }
+      />
+    )
+    : (<Tab label='Messages' />);
     return (
       <div className={classes.root}>
         <AppBar position='static' color='default'>
