@@ -21,6 +21,7 @@ const typeDefs = `
   }
   type Mutation {
     createMessage(text: String!): Message
+    updateMessage(id: ID!, answered: Boolean!): Boolean
   }
 `;
 
@@ -34,6 +35,10 @@ const resolvers = {
       const message = new Message({ text, answered: false });
       await message.save();
       return message;
+    },
+    updateMessage: async (_, { id, answered }) => {
+      await Message.findByIdAndUpdate(id, { answered });
+      return true;
     }
   }
 };

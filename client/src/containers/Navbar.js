@@ -75,7 +75,10 @@ class Navbar extends Component {
             >
               Generate Message
             </Button>
-            <MessageList messages={messages}/>
+            <MessageList
+              messages={messages}
+              updateMessage={this.props.updateMessage}
+            />
           </TabContainer>
         }
         {value === 1 && <TabContainer>Schools</TabContainer>}
@@ -88,7 +91,8 @@ class Navbar extends Component {
 Navbar.propTypes = {
   classes: PropTypes.object.isRequired,
   messages: PropTypes.array.isRequired,
-  createMessage: PropTypes.func.isRequired
+  createMessage: PropTypes.func.isRequired,
+  updateMessage: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(Navbar);

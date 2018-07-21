@@ -23,6 +23,12 @@ const CreateMessageMutation = gql`
   }
 `;
 
+const UpdateMessageMutation = gql`
+  mutation($id: ID!, $answered: Boolean!) {
+    updateMessage(id: $id, answered: $answered)
+  }
+`;
+
 class App extends Component {
   createMessage = async text => {
     await this.props.createMessage({
@@ -39,6 +45,29 @@ class App extends Component {
       }
     })
   };
+  updateMessage = async message => {
+    await this.props.updateMessage({
+      variables: {
+        id: message.id,
+        answered: !message.answered
+      },
+      update: store => {
+        // Read the data from the cache for this query.
+        const data = store.readQuery({ query: MessagesQuery });
+        // Update the data.
+        data.messages = data.messages.map(x =>
+          x.id === message.id
+          ? {
+              ...message,
+              answered: !message.answered
+            }
+          : x
+        );
+        // Write data back to cache.
+        store.writeQuery({ query: MessagesQuery, data });
+      }
+    })
+  };
 
   render() {
     const {
@@ -50,6 +79,7 @@ class App extends Component {
         <Navbar
           messages={messages}
           createMessage={this.createMessage}
+          updateMessage={this.updateMessage}
         />
       </div>
     );
@@ -58,5 +88,6 @@ class App extends Component {
 
 export default compose(
   graphql(CreateMessageMutation, { name: 'createMessage'}),
+  graphql(UpdateMessageMutation, { name: 'updateMessage'}),
   graphql(MessagesQuery)
 )(App);
