@@ -6,7 +6,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -26,21 +25,19 @@ const styles = theme => ({
 });
 
 class MessageList extends Component {
-  handleRespond = (message) => {
-    this.props.updateMessage(message);
-  }
-
   render() {
     const { classes, messages } = this.props;
     const messageList = [];
     let messageCount = 0;
     messages.forEach(message => {
       messageCount += 1;
-      const messageBadge = message.answered ? '' : (<span className={classes.newBadge}>New </span>);
+      const messageBadge = message.answered ? ''
+        : (<span className={classes.newBadge}>New </span>);
       messageList.push(
         <ExpansionPanel key={messageCount}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
+            onClick={() => this.props.updateMessage(message)}
           >
             <Typography className={classes.heading}>
               {messageBadge}Message {messageCount}
@@ -49,13 +46,6 @@ class MessageList extends Component {
           <ExpansionPanelDetails>
             <Typography>
               {message.text}
-              <Button
-              variant='contained'
-              className={classes.button}
-              onClick={() => this.handleRespond(message)}
-            >
-              Respond
-            </Button>
             </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>

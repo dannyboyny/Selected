@@ -49,7 +49,7 @@ class App extends Component {
     await this.props.updateMessage({
       variables: {
         id: message.id,
-        answered: !message.answered
+        answered: true
       },
       update: store => {
         // Read the data from the cache for this query.
@@ -59,7 +59,7 @@ class App extends Component {
           x.id === message.id
           ? {
               ...message,
-              answered: !message.answered
+              answered: true
             }
           : x
         );
