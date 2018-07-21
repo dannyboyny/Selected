@@ -50,6 +50,12 @@ class Navbar extends Component {
     this.setState({ value });
   };
 
+  handleOneThousandRequests = () => {
+    for(let i = 0; i < 1000; i++) {
+      this.props.createMessage('Sample Message');
+    }
+  };
+
   render() {
     const { value } = this.state;
     const { classes, messages } = this.props;
@@ -79,9 +85,9 @@ class Navbar extends Component {
             <Button
               variant='contained'
               className={classes.button}
-              onClick={() => this.props.createMessage('Sample Message')}
+              onClick={() => this.handleOneThousandRequests()}
             >
-              Generate Message
+              Generate 1000 Messages
             </Button>
             <MessageList
               messages={messages}
