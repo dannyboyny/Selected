@@ -58,7 +58,7 @@ class Navbar extends Component {
           <Tabs value={value} onChange={this.handleChange}>
             {messagesTab}
             <Tab label="Schools" />
-            <Tab label="Profile" href="#basic-tabs" />
+            <Tab label="Profile" />
           </Tabs>
         </AppBar>
         {value === 0 && <TabContainer>Messages</TabContainer>}

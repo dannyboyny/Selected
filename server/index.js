@@ -19,13 +19,23 @@ const typeDefs = `
     text: String!
     answered: Boolean!
   }
+  type Mutation {
+    createMessage(text: String!): Message
+  }
 `;
 
 const resolvers = {
   Query: {
     messages: () => Message.find()
+  },
+  Mutation: {
+    createMessage: async (_, { text }) => {
+      const message = new Message({ text, answered: false });
+      await message.save();
+      return message;
+    }
   }
-}
+};
 
 const server = new GraphQLServer({ typeDefs, resolvers });
 
