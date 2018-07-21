@@ -24,6 +24,7 @@ const typeDefs = `
   }
 `;
 
+// Functions that are called when a request is made
 const resolvers = {
   Query: {
     messages: () => Message.find()

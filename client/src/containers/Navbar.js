@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import logo from '../logo.svg';
 import MessageList from '../components/MessageList';
 
 const TabContainer = (props) => {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component='div' style={{ padding: 8 * 3 }}>
       {props.children}
     </Typography>
   );
@@ -22,25 +21,18 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
   newBadge: {
     color: 'orange',
     fontWeight: 'bold'
+  },
+  button: {
+    margin: theme.spacing.unit,
   }
-};
-
-const MessagesQuery = gql`
-  {
-    messages {
-      id
-      text
-      answered
-    }
-  }
-`;
+});
 
 class Navbar extends Component {
   state = {
@@ -53,11 +45,7 @@ class Navbar extends Component {
 
   render() {
     const { value } = this.state;
-    const {
-      classes,
-      data: { loading, messages }
-    } = this.props;
-    if (loading) return null;
+    const { classes, messages } = this.props;
     const unreadMessages = messages ? messages.filter(message => message.answered) : 0;
     const messagesTab = unreadMessages ? (
         <Tab
@@ -66,19 +54,30 @@ class Navbar extends Component {
           }
         />
       )
-      : (<Tab label="Messages" />);
+      : (<Tab label='Messages' />);
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <img src={logo} alt="logo" />
+        <AppBar position='static' color='default'>
+          <img src={logo} alt='logo' />
           <Tabs value={value} onChange={this.handleChange}>
             {messagesTab}
-            <Tab label="Schools" />
-            <Tab label="Profile" />
+            <Tab label='Schools' />
+            <Tab label='Profile' />
           </Tabs>
         </AppBar>
-        {value === 0 && <TabContainer><MessageList messages={messages}/></TabContainer>}
+        {value === 0 &&
+          <TabContainer>
+            <Button
+              variant='contained'
+              className={classes.button}
+              onClick={() => this.props.createMessage('Sample Message')}
+            >
+              Generate Message
+            </Button>
+            <MessageList messages={messages}/>
+          </TabContainer>
+        }
         {value === 1 && <TabContainer>Schools</TabContainer>}
         {value === 2 && <TabContainer>Profile</TabContainer>}
       </div>
@@ -87,10 +86,9 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  messages: PropTypes.array.isRequired,
+  createMessage: PropTypes.func.isRequired
 };
 
-export default compose(
-  graphql(MessagesQuery),
-  withStyles(styles)
-)(Navbar);
+export default withStyles(styles)(Navbar);
