@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import gql from 'graphql-tag';
+import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -29,6 +31,16 @@ const styles = {
   }
 };
 
+const MessagesQuery = gql`
+  {
+    messages {
+      id
+      text
+      answered
+    }
+  }
+`;
+
 class Navbar extends Component {
   state = {
     value: 0,
@@ -39,10 +51,14 @@ class Navbar extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { value } = this.state;
-    const unread = 1;
-    const messagesTab = unread ? (
+    const {
+      classes,
+      data: { loading, messages }
+    } = this.props;
+    if (loading) return null;
+    const unreadMessages = messages ? messages.filter(message => message.answered) : 0;
+    const messagesTab = unreadMessages ? (
         <Tab
           label={
             <h3><span style={styles.newBadge}>New</span> Messages</h3>
@@ -73,4 +89,7 @@ Navbar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Navbar);
+export default compose(
+  graphql(MessagesQuery),
+  withStyles(styles)
+)(Navbar);
