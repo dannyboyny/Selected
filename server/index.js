@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost:27017/selected', { useNewUrlParser: true });
 
+// MongoDB Schema
 const Message = mongoose.model('Message', {
   text: String,
   answered: Boolean
 });
 
+// GraphQL Schema, Querys and Mutations
 const typeDefs = `
   type Query {
     messages: [Message]
