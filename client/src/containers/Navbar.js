@@ -50,7 +50,7 @@ class Navbar extends Component {
     const messagesTab = unreadMessages ? (
         <Tab
           label={
-            <h3><span style={styles.newBadge}>New</span> Messages</h3>
+            <h3><span className={classes.newBadge}>New</span> Messages</h3>
           }
         />
       )

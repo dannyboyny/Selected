@@ -15,6 +15,10 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  newBadge: {
+    color: 'orange',
+    fontWeight: 'bold'
+  }
 });
 
 class MessageList extends Component {
@@ -27,7 +31,13 @@ class MessageList extends Component {
       messageList.push(
         <ExpansionPanel key={messageCount}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Message {messageCount}</Typography>
+            <Typography className={classes.heading}>
+              {messageCount.answered ? ''
+                : (
+                  <span className={classes.newBadge}>New </span>
+                )
+              }Message {messageCount}
+            </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography>
