@@ -85,6 +85,13 @@ class Navbar extends Component {
             <Button
               variant='contained'
               className={classes.button}
+              onClick={() => this.props.createMessage('Sample Message')}
+            >
+              Generate 1 Message
+            </Button>
+            <Button
+              variant='contained'
+              className={classes.button}
               onClick={() => this.handleOneThousandRequests()}
             >
               Generate 1000 Messages
