@@ -29,28 +29,30 @@ class MessageList extends Component {
     const { classes, messages } = this.props;
     const messageList = [];
     let messageCount = 0;
-    messages.forEach(message => {
-      messageCount += 1;
-      const messageBadge = message.answered ? ''
-        : (<span className={classes.newBadge}>New </span>);
-      messageList.push(
-        <ExpansionPanel key={messageCount}>
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            onClick={() => this.props.updateMessage(message)}
-          >
-            <Typography className={classes.heading}>
-              {messageBadge}Message {messageCount}
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              {message.text}
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      );
-    });
+    if(messages) {
+      messages.forEach(message => {
+        messageCount += 1;
+        const messageBadge = message.answered ? ''
+          : (<span className={classes.newBadge}>New </span>);
+        messageList.push(
+          <ExpansionPanel key={messageCount}>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              onClick={() => this.props.updateMessage(message)}
+            >
+              <Typography className={classes.heading}>
+                {messageBadge}Message {messageCount}
+              </Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography>
+                {message.text}
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        );
+      });
+    }
   
     return (
       <div className={classes.root}>
